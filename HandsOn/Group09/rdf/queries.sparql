@@ -1,0 +1,39 @@
+# Query 1: Give all the stations and their IDs
+
+  SELECT ?StationLocation ?StationID WHERE {
+    ?Subject <http://www.w3.org/2000/01/rdf-schema#label> ?StationLocation.
+    FILTER(LANG(?StationLocation) = "es")
+    ?Subject <http://mAIRdrid.org/ontology/nationalStationID> ?StationID.
+  }
+
+# Query 2: Give numeric values of the meditions 
+
+    SELECT ?Medition ?Value WHERE {
+    ?Medition <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://qudt.org/schema/qudt#QuantityValue> .
+    FILTER(STRSTARTS(STR(?Medition), "http://mAIRdrid.org/resources/Station/28079004/2023-01-01#")).
+    ?Medition <http://qudt.org/schema/qudt#numericValue> ?Value.
+	}
+	LIMIT 10
+
+# Query 3: Give all sensors' location labels
+
+  SELECT ?Station ?Location WHERE {
+    ?Station <http://www.w3.org/2000/01/rdf-schema#label> ?Location.
+    FILTER(LANG(?Location) = "es" && STRENDS(STR(?Station), "Location"))
+}
+
+# Query 4: Give all the station's sensors that can metric the air quality
+
+  SELECT ?Subject  WHERE {
+    ?Subject <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://mAIRdrid.org/ontology/AirQualityMetric>.
+  }
+
+# Query 5: Give all the stations with their altitude, latitude and longitude
+
+    SELECT ?StationLocation ?Altitude ?Latitude ?Longitude WHERE {
+    ?Subject <http://www.w3.org/2000/01/rdf-schema#label> ?StationLocation.
+    FILTER(LANG(?StationLocation) = "es")
+    ?Subject <http://www.w3.org/2003/01/geo/wgs84_pos#alt> ?Altitude.
+    ?Subject <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?Latitude.
+    ?Subject <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?Longitude.
+  }
